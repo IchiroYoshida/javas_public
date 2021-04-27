@@ -26,4 +26,5 @@ function drawSky(){
     drawEcliEqu(ctx); //draw Ecli. Equ. lines.
     drawMoon(ctx); //draw Moon.
     drawConstName(ctx); //draw constellation names.
+    drawConstLines(ctx); //draw constellation lines.
 }
