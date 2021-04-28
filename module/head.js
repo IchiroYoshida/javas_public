@@ -12,12 +12,7 @@ const elevation = 20.0;
 let observer = new Astronomy.Observer(latitude, longitude, elevation);
 
 date = new Date();
-//let date = Date.now();
-let date_org = date;
-console.log(date,date_org);
-
-let date_now = Date.now();
-console.log(date_now);
+astroToday = new Astronomy.MakeTime(date);
 
 // BodyList of Solar system.
 const BodyList = [
@@ -51,5 +46,5 @@ var Bright20Names = Object.keys(starName);
 // Constellations.
 var ConstName = Object.keys(Constellations);
 
-// Constellation Lines.
+// Constellation lines.
 var ConstLines = Object.keys(constLines);

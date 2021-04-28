@@ -3,19 +3,16 @@
 function drawMoon(ctx){
     rr = 10;  //Moon radius.
     ctx.globalAlpha = 1.0;
-    var date0 = date;
-    astroToday = new Astronomy.MakeTime(date);
-  
+    
+    var prevMonth = astroToday.AddDays(-30);
+    var previousNewMoon = Astronomy.SearchMoonPhase(0, prevMonth.date, 30);
+    var MoonAge = astroToday.tt - previousNewMoon.tt; // Moon Age.
+    var MA = MoonAge.toFixed(1);
     var phase = Astronomy.MoonPhase(date); //Moon phase;
     var moonIllumi = new Astronomy.Illumination("Moon",date);
     var pAngle = moonIllumi.phase_angle;　//phase_angle;
     var alphaRad = phase * PI /180;
     var kaiRad = pAngle * PI /180;
-
-    date0.setMonth(date0.getMonth() - 1);
-    var previousNewMoon = Astronomy.SearchMoonPhase(0, date0, 30);
-    var MoonAge = astroToday.tt - previousNewMoon.tt; // Moon Age.
-    var MA = MoonAge.toFixed(1);
 
     let X = [];
     let Y = [];
@@ -53,7 +50,6 @@ function drawMoon(ctx){
     ctx.beginPath();
     ctx.translate(dot.x,dot.y);
     ctx.moveTo(X[0],Y[1]);
-    //console.log('start:',X[0],Y[0])
     for (var i =1; i<len; i++){
         ctx.lineTo(X[i],Y[i]);
     }
