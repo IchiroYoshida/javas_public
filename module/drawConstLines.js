@@ -1,5 +1,5 @@
 // drawConstLines.js 
-function drawConstLines(ctx){
+function drawConstLines(ctx, observer, date){
     ctx.globalAlpha = 0.6;
     ctx.strokeStyle = '#8888FF';
     for(var clin in ConstLines){
@@ -23,6 +23,7 @@ function drawConstLines(ctx){
                 let dot2 = drawPolar(az2, alt2);
                 ctx.save();
                 ctx.beginPath();
+                ctx.translate(drawRadius, drawRadius);
                 ctx.moveTo(dot1.x, dot1.y);
                 ctx.lineTo(dot2.x, dot2.y);
                 ctx.closePath();

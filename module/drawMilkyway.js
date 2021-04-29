@@ -1,6 +1,6 @@
 // drawMilkyway.js
 
-function drawMilkyway(ctx){
+function drawMilkyway(ctx, observer, date){
     ctx.fillStyle = 'white';
     ctx.globalAlpha = 0.1;
 
@@ -15,6 +15,7 @@ function drawMilkyway(ctx){
             let dot = drawPolar(az, alt);
             ctx.save();
             ctx.beginPath();
+            ctx.translate(drawRadius, drawRadius);
             ctx.arc(dot.x, dot.y, 3, 0, PI*2, false);
             ctx.fill();
             ctx.restore();

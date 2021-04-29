@@ -1,18 +1,18 @@
-//
+//global.js
 const drawRadius2 = 1024;
 let drawRadius = parseInt(drawRadius2/2);
 const drawClip = 500;
 
 const PI = Math.PI;
 
-// Location Fukuoka
-const latitude = 33.594;
-const longitude = 130.387;
-const elevation = 20.0;
-let observer = new Astronomy.Observer(latitude, longitude, elevation);
+//Location Fukuoka
+//const latitude = 33.594;
+//const longitude = 130.387;
+//const elevation = 20.0;
+//let observer = new Astronomy.Observer(latitude, longitude, elevation);
 
-date = new Date();
-astroToday = new Astronomy.MakeTime(date);
+//date = new Date();
+//astroToday = new Astronomy.MakeTime(date);
 
 let Year  =  date.getFullYear();
 let Month = date.getMonth() +1;

@@ -1,7 +1,7 @@
 // drawConstName.js 
-function drawConstName(ctx){
+function drawConstName(ctx, observer, date){
     ctx.globalAlpha = 0.6;
-    ctx.font = "9pt bold";
+    ctx.font = "16pt bold";
     ctx.fillStyle = '#8888FF';
 
     for(var con in ConstName){
@@ -15,6 +15,8 @@ function drawConstName(ctx){
         if (alt>0) {
             let dot = drawPolar(az, alt);
             ctx.save();
+            ctx.beginPath();
+            ctx.translate(drawRadius, drawRadius);
             ctx.translate(dot.x,dot.y);
             ctx.fillText(name,0,0);
             ctx.restore();

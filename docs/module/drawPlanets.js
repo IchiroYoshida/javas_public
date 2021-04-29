@@ -1,7 +1,7 @@
 // drawPlanets.js
 
-function drawPlanets(ctx){
-    ctx.font = "12px bold";
+function drawPlanets(ctx, observer, date){
+    ctx.font = "15px bold";
     ctx.fillStyle = 'red';
 
     for (let body of BodyList) {
@@ -14,6 +14,7 @@ function drawPlanets(ctx){
             let dot = drawPolar(az, alt);
             ctx.save();
             ctx.beginPath();
+            ctx.translate(drawRadius, drawRadius);
             ctx.arc(dot.x, dot.y,3 ,0, Math.PI*2, false);
             ctx.fill();
             // Name of the Planets.

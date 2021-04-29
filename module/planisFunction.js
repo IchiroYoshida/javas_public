@@ -8,6 +8,5 @@ function drawPolar(az, alt){
     let y =  -r * Math.cos(Az);
     let XX = 2*x/PI*drawRadius;
     let YY = 2*y/PI*drawRadius;
-    //console.log(XX, YY);
     return{x:XX, y:YY};
 }

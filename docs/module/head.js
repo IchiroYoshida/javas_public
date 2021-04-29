@@ -1,7 +1,7 @@
 //
-const drawRadius2 = 640;
+const drawRadius2 = 1024;
 let drawRadius = parseInt(drawRadius2/2);
-const drawClip = 300;
+const drawClip = 500;
 
 const PI = Math.PI;
 
@@ -13,6 +13,17 @@ let observer = new Astronomy.Observer(latitude, longitude, elevation);
 
 date = new Date();
 astroToday = new Astronomy.MakeTime(date);
+
+let Year  =  date.getFullYear();
+let Month = date.getMonth() +1;
+let Day = date.getDate();
+let Date1 = Year+'/'+Month+'/'+Day;
+
+let HH = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+let MM = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+let SS = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+let Date2 = HH+':'+MM+':'+SS;
+console.log('Date=',Date1,Date2);
 
 // BodyList of Solar system.
 const BodyList = [

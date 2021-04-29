@@ -1,6 +1,6 @@
 // drawStarsInTheSky.js 
-function drawStarsInTheSky(ctx){
-    ctx.font = "8pt bold";
+function drawStarsInTheSky(ctx, observer, date){
+    ctx.font = "12pt bold";
     for(var star in Stars){
 	    var ra = Hipparcos[Stars[star]].Ra/15;
 	    var dec = Hipparcos[Stars[star]].Dec;
@@ -14,8 +14,9 @@ function drawStarsInTheSky(ctx){
             let dot = drawPolar(az, alt);
             ctx.save();
             ctx.fillStyle = bv;
+            ctx.translate(drawRadius, drawRadius);
             ctx.translate(dot.x,dot.y);
-            let r = (5-mag)**1.5/1.5;
+            let r = (5-mag)**1.5;
             drawStar(ctx,r);
             // Names of the brightest 20 stars.
             var name = starName[Stars[star]];
