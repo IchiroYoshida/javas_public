@@ -26,7 +26,7 @@ function drawMoon(ctx, observer, date){
 
     for (var th =-90; th < 100; th += 10){
         var rad = PI/180 * th;
-        var x0 = Math.cos(rad) * Math.cos(alphaRad);
+        var x0 = -Math.cos(rad) * Math.cos(alphaRad);
         var y0 = Math.sin(rad);
         var x1 = Math.cos(kaiRad)*x0 - Math.sin(kaiRad)*y0;
         var y1 = Math.sin(kaiRad)*x0 + Math.cos(kaiRad)*y0;
@@ -38,7 +38,7 @@ function drawMoon(ctx, observer, date){
     
     for (var th =90; th > -100; th -= 10){
         var rad = PI/180 * th;
-        var x0 =  Math.cos(rad);
+        var x0 =  -Math.cos(rad);
         var y0 =  Math.sin(rad);
         var x1 =  Math.cos(kaiRad)*x0 - Math.sin(kaiRad)*y0;
         var y1 =  Math.sin(kaiRad)*x0 + Math.cos(kaiRad)*y0;

@@ -1,11 +1,4 @@
 // Draw Ecli Equ lines in the sky.
-function AveArr(arr){
-    const sum = arr.reduce(function (acc, cur){
-        return acc + cur;
-    });
-    return(sum /arr.length);
-}
-
 function drawEcliEqu(ctx, observer, date){
     // Draw equator.
     ctx.font = '15pt bold';
@@ -31,14 +24,6 @@ function drawEcliEqu(ctx, observer, date){
             ctx.restore();
         }
     }
-    let XequPoint  = AveArr(Xequ);
-    let YequPoint  = AveArr(Yequ);
-    ctx.save();
-    ctx.beginPath();
-    ctx.translate(drawRadius, drawRadius);
-    ctx.translate(XequPoint, YequPoint)
-    ctx.fillText('Equatorial', 0, 0);
-    ctx.restore();
 
     // Draw ecliptic.
     epsi = 23.43*Math.PI/180 //deg. ->rad
@@ -76,13 +61,55 @@ function drawEcliEqu(ctx, observer, date){
             ctx.restore();
         }         
     }
-    let XecliPoint  = AveArr(Xecli);
-    let YecliPoint  = AveArr(Yecli);
+
+    // Equator and Ecliptic legend.
+    
+    let HH = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    let MM = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    let SS = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+    // HourAngleE
+
+    const SOLAR_DAYS_PER_SIDEREAL_DAY = 0.9972695717592592;
+    const SECONDS_PER_DAY = 24 * 3600;
+    var tAngle = (HH*3600+MM*60+SS)/SECONDS_PER_DAY * SOLAR_DAYS_PER_SIDEREAL_DAY *360;
+    var sun = new Astronomy.SunPosition(date);
+    var middleSouth = tAngle - observer.longitude - sun.elon;
+    //console.log(middleSouth,tAngle);
+
+    let equ = Astronomy.Horizon(date, observer, middleSouth/15, 0, 'normal');
+    az = equ.azimuth;
+    alt = equ.altitude;
     ctx.save();
     ctx.beginPath();
+    let dot = drawPolar(az, alt);
     ctx.translate(drawRadius, drawRadius);
-    ctx.translate(XecliPoint, YecliPoint)
-    ctx.fillText('Ecliptic', 0, 0);
+    ctx.translate(dot.x, dot.y);
+    ctx.fillStyle = 'white'; 
+    ctx.fillText('Equatorial',-50, 0);
+    ctx.restore();
+
+    let rad = middleSouth*Math.PI/180;
+    // Ecliptic -> Equatorial
+    let alpha  = Math.atan(Math.sin(rad)/Math.cos(rad)*Math.cos(epsi));
+    if (middleSouth >90 && middleSouth <= 270){
+        alpha +=Math.PI;
+    } else {
+        alpha +=2*Math.PI;
+    }
+    delta = Math.asin(Math.sin(rad)*Math.sin(epsi));
+    alpha *=  180/Math.PI;
+    delta *=  180/Math.PI;
+    let ecli = Astronomy.Horizon(date, observer, alpha/15, delta, 'normal');
+    az = ecli.azimuth;
+    alt = ecli.altitude; 
+    ctx.save();
+    ctx.beginPath();
+    let dot2 = drawPolar(az, alt);
+    ctx.translate(drawRadius, drawRadius);
+    ctx.translate(dot2.x, dot2.y);
+    ctx.fillStyle = 'yellow'; 
+    ctx.fillText('Equliptic',-50, 0);
     ctx.restore();
 }
 

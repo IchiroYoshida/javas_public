@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Step7.地図をクリックしてマーカー表示とマーカー削除|Lefletの基本|埼玉大学谷謙二研究室</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.0/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.3.0/dist/leaflet.js"></script>
+  <script>
+    //地図オブジェクトを入れる変数をグローバルにする
+    var map;
+    var map_old;
+    var geoLat=33.59;
+    var geoLng=130.39;
+
+    function init() {
+      map = L.map('mapcontainer', { zoomControl: false });
+      var mpoint = [geoLat, geoLng];
+      map.setView(mpoint, 15);
+      L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+          attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+      }).addTo(map);
+
+      map_old=map;
+      //地図のclickイベントでonMapClick関数を呼び出し
+      map.on('click', onMapClick);
+    }
+    function onMapClick(e) {
+      map.removeLayer(map_old);
+      //地図のclickイベント呼び出される
+      //クリック地点の座標にマーカーを追加、マーカーのclickイベントでonMarkerClick関数を呼び出し
+      var mk = L.marker(e.latlng).on('click', onMarkerClick).addTo(map);
+      console.log(e.latlng.lat, e.latlng.lng);
+      geoLat = e.latlng.lat;
+      geoLng = e.latlng.lng;
+      map_old = mk;
+
+    }
+    function onMarkerClick(e) {
+      //マーカーのclickイベント呼び出される
+      //クリックされたマーカーを地図のレイヤから削除する
+      map.removeLayer(e.target);
+    }
+  </script>
+</head>
+<body onload="init()">
+  <div id="mapcontainer" style="position:absolute;top:0;left:0;right:0;bottom:0;"></div>
+</body>
+</html>
+

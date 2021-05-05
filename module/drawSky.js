@@ -7,11 +7,11 @@ function drawSky(observer, date){
     }
     drawBase(ctx,observer, date); //draw Base.
     drawMilkyway(ctx, observer, date); //draw Milkyway 1000 clusters.
+    drawConstLines(ctx, observer, date); //draw constellation lines.
     drawStarsInTheSky(ctx, observer, date);  //draw Hipparcos 1000 stars.
     drawPlanets(ctx, observer, date); //draw planets.
     drawEcliEqu(ctx, observer, date); //draw Ecli. Equ. lines.
     drawMoon(ctx, observer, date); //draw Moon.
     drawConstName(ctx, observer, date); //draw constellation names.
-    drawConstLines(ctx, observer, date); //draw constellation lines.
     drawLegend(ctx, observer,date);
 }

@@ -21,3 +21,5 @@ function drawLegend(ctx, observer, date){
     ctx.closePath();
     ctx.restore();
 }
+
+   

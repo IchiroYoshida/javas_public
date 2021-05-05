@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Radio button</title>
+        <meta name="viewport" content="width=device-width,maximum-scale=2">
+    </head>
+    <body id="main_content_wrap" class="inner">
+        <h1>Star Map by Ichiro.</h1>
+        <table cellpadding="20" cellspacing="0" border="1">
+        <caption><font size ="5">Observer</font></caption>
+            <tr>
+                <td>
+                    <div>Set Location:</div>
+                    <div>
+                        <input type="radio" id="ManualLocationCheck"
+                         name="location" value="ManualLocation"
+                        <label for="<ManualLocation">Manual</label>
+
+                        <input type="radio" id="AutoGeolocationCheck"
+                         name="location" value="AutoGeo"
+                        <label for="AutoGeo">Automatic</label>
+
+                        <input type="radio" id="MapSearchCheck"
+                         name="location" value="MapSearch"
+                        <label for="MapSearch">Map search</label>
+                    </div>
+                    <div>
+                      <button type="submit" onclick="Submit();">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+    <script>
+
+    function Submit(){
+        console.log('Get Submit!');
+        var Manual = document.getElementById("ManualLocationCheck");
+        var AutoGeo  = document.getElementById("AutoGeolocationCheck");
+        var MapSearch = document.getElementById("MapSearchCheck");
+
+        if (Manual.checked || AutoGeo.checked || MapSearch.checked){
+            if (Manual.checked){
+                console.log('Manual location checked!');
+            } else if (AutoGeo.checked) {
+                console.log('AutoGeo checked!');
+            } else if (MapSearch.checked) {
+                console.log('Map search checked!');
+            } else {
+                console.log('Default Manual 1');
+            }
+        } else {
+            console.log('Force Manual!');
+        }
+    }
+    </script>
+</html>

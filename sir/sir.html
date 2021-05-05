@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>SIR model by Ichiro.</title>
+	      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="./ode-rk4.js"></script>
+    </head>
+    <body id="main_content_wrap" class="inner">
+        <h1>SIR model by Ichiro.</h1>
+        <table cellpadding="20" cellspacing="0" border="1">
+        <div id = "SIRplot" style="width1024px;height:512px"></div>
+
+<script>
+SIR = document.getElementById('SIRplot');
+
+// SIR model in JavaScript
+// http://epirecip.es/epicookbook/chapters/sir/js
+//
+
+// Parameters.
+
+//const b=0.1;
+//const g=0.05;
+const g = 1/7.;
+//const I0=0.01;
+I0=0.1;
+const r =1.5;
+const b = r*g;
+const step=0.1;
+const tmax=50.0;
+
+// const N = 10000;
+// const I0 = 1000;
+// const r = 1.5;
+// const g = 1/7.;
+// const b = r*g/N;
+// const step = .1;
+// const tmax=200.;
+
+// Calculations.
+
+function copy(x) {
+  return Object.assign({},x)
+}
+
+function simulate(f,t0,y0,step,tmax) {
+  var integrator = IntegratorFactory(y0, f, t0, step)
+  var t = t0
+  var y = y0
+  var ta = []
+  var ya = []
+  ta.push(t0)
+  ya.push(copy(y))
+  while(true){
+    t = t+step
+    if(t>tmax) break
+    integrator=integrator.step()
+    ya.push(copy(integrator.y))
+    ta.push(t)
+  }
+  return {t:ta,y:ya};
+}
+
+function sir(dydt, y, t) {
+  dydt[0] = -b*y[0]*y[1];
+  dydt[1] = b*y[0]*y[1] - g*y[1];
+  dydt[2] = g*y[1];
+}
+
+var sir_sol = simulate(sir,0,[1.0-I0,I0,0.0],step,tmax);
+
+// Visualisation.
+
+var t = sir_sol.t;
+var S = sir_sol.y.map((x)=>{return x[0]});
+var I = sir_sol.y.map((x)=>{return x[1]});
+var R = sir_sol.y.map((x)=>{return x[2]});
+var strace = {
+    type: "scatter",
+    mode: "step",
+    name: 'S',
+    x: t,
+    y: S,
+    line: {color: 'blue'}
+}
+var itrace = {
+    type: "scatter",
+    mode: "step",
+    name: 'I',
+    x: t,
+    y: I,
+    line: {color: 'red'}
+}
+var rtrace = {
+    type: "scatter",
+    mode: "step",
+    name: 'R',
+    x: t,
+    y: R,
+    line: {color: 'green'}
+}
+var data = [strace,itrace,rtrace];
+
+var layout = {
+    title: 'SIR model',
+    xaxis: {
+    title: 'Time',
+    titlefont: {
+      size: 18,
+    }
+    },
+    yaxis: {
+    title: 'Number',
+    titlefont: {
+      size: 18,
+    }
+    }}
+
+
+Plotly.newPlot(SIR, data, layout);
+
+</script>
+
+</html>
+

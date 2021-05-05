@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Star Map by Ichiro.</title>
+        <title>Star Map DEBUG by Ichiro.</title>
         <meta name="viewport" content="width=device-width,maximum-scale=2">
     </head>
     <body id="main_content_wrap" class="inner">
-        <h1>Star Map by Ichiro.</h1>
+        <h1>Star Map DEBUG by Ichiro.</h1>
 
         <h2>Observer</h2>
         <table cellpadding="5" cellspacing="0" border="1">
@@ -123,8 +123,8 @@
             } catch (e) {
             }
             if (!options) options = {};
-            if (!IsValidNumber(options.latitude))  options.latitude  = '30';
-            if (!IsValidNumber(options.longitude)) options.longitude = '-90';
+            if (!IsValidNumber(options.latitude))  options.latitude  = '35';
+            if (!IsValidNumber(options.longitude)) options.longitude = '130';
             if (!IsValidNumber(options.elevation)) options.elevation = '0';
             if (typeof options.automatic !== 'boolean') options.automatic = true;
             if (!IsValidDate(options.date)) options.date = FormatDate(new Date());
@@ -212,7 +212,7 @@
                 let observer = new Astronomy.Observer(latitude, longitude, elevation);
                 drawSky(observer, date);
             }
-            setTimeout(UpdateScreen, 1000);
+            //setTimeout(UpdateScreen, 1000);
         }
         Options = Init();
         UpdateScreen();

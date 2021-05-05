@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Demo5</title>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style type="text/css">
+     <!--
+      #mapid { height: 800px; width: 800px}
+    -->
+    </style>
+  </head>
+  <body>
+    <div id="mapid"></div>
+
+    <script>
+      var mymap = L.map('mapid').setView([35.7102, 139.8132], 5);
+
+		  L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+      }).addTo(mymap);
+
+      function onLocationFound(e) {
+          L.marker(e.latlng).addTo(mymap).bindPopup("現在地").openPopup();
+      }
+
+      function onLocationError(e) {
+          alert("現在地を取得できませんでした。" + e.message);
+      }
+
+      mymap.on('locationfound', onLocationFound);
+      mymap.on('locationerror', onLocationError);
+
+      mymap.locate({setView: true, maxZoom: 8, timeout: 20000});
+
+    </script>
+  </body>
+</html>
