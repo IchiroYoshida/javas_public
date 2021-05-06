@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Plugin Locate</title>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- plugin -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/L.Control.Locate.min.css" />
+    <script src="js/L.Control.Locate.min.js"></script>
+<!-- plugin -->
+    <style type="text/css">
+    <!--
+        #mapid { height: 600px; width: 600px}
+    -->
+    </style>
+  </head>
+  <body onload="init()">
+    <div id="mapid"></div>
+  </body>
+
+  <script>
+    // Initialize global parameters and map.
+    var map;
+    var map_old;
+    var geoLat = 33.59;
+    var geoLng = 130.39;
+
+    // Locate
+    var option = {
+      position: 'topright',
+      strings: {
+        title: "Position now!",
+        popup: "Here!!"
+      },
+      locateOptions: {
+        maxZoom: 7
+      }
+    }
+
+    function init(){
+      map = L.map('mapid',{
+          center: [geoLat, geoLng],
+          zoom: 12,
+          minZoom: 1,
+          maxZoom: 16
+        });
+
+      var lc = L.control.locate(option).addTo(map);
+      // マップ表示時に現在地を取得
+      //lc.start();
+      map.on('locationfound', onLocationFound);
+      map.on('locationerror', onLocationError);
+  
+      L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+      }).addTo(map);
+      map_old = map;
+      //click -> on MapClic
+      map.on('click', onMapClick);
+    }
+    
+    function onMapClick(e) {
+      map.removeLayer(map_old);
+      //click -> Marker plot
+      var mk = L.marker(e.latlng).on('click', onMarkerClick).addTo(map);
+      geoLat = e.latlng.lat;
+      geoLng = e.latlng.lng;
+      console.log(geoLat, geoLng);
+      map_old = mk;
+    }
+
+    function onMarkerClick(e) {
+      //Erase clicked marker.
+      map.removeLayer(e.target);
+    }
+
+    function onLocationFound(e) {
+      geoLat = e.latlng.lat;
+      geoLng = e.latlng.lng;
+      var mpoint =[geoLat, geoLng];
+      map.setView(mpoint, 15);
+      var radius = e.accuracy / 2;
+          L.circle(e.latlng, radius).addTo(map);
+      console.log('geoAPI',geoLat, geoLng);
+    }
+   
+    function onLocationError(e) {
+        alert(e.message);
+    }
+  </script>
+</html>
+

@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <title>Radio button</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,maximum-scale=2">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <style type="text/css">
+        <!--
+        #mapid { height: 800px; width: 800px}
+        -->
+        </style>
+    </head>
+
+    <body id="main_content_wrap" class="inner">
+        <h1>Star Map by Ichiro.</h1>
+        <table cellpadding="20" cellspacing="0" border="1">
+        <caption><font size ="5">Observer</font></caption>
+            <tr>
+                <td>
+                    <div>Set Location:</div>
+                    <div>
+                        <input type="radio" id="ManualLocationCheck"
+                         name="location" value="ManualLocation"
+                        <label for="<ManualLocation">Manual</label>
+
+                        <input type="radio" id="AutoGeolocationCheck"
+                         name="location" value="AutoGeo"
+                        <label for="AutoGeo">Automatic</label>
+
+                        <input type="radio" id="MapSearchCheck"
+                         name="location" value="MapSearch"
+                        <label for="MapSearch">Map search</label>
+                    </div>
+                    <div>
+                      <button type="submit" onclick="Submit();">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+
+    <body>
+    <div id="mapid"></div>
+    </body>
+
+    <script>
+    var geoLat =35.71    //initial position:Tokyo.
+    var geoLng = 139.81;
+    var map = L.map('mapid').setView([geoLat, geoLng], 5);
+    var map_old;
+
+    // point on map.
+    function pointGeoMap(){
+        console.log('pointGeoMap',geoLat, geoLng);
+        map.removeLayer(map_old);
+
+        map.setView([geoLat, geoLng], 15);
+        L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+          attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+        }).addTo(map);
+        map_old=map;
+        //click -> on MapClick
+        map.on('click', onMapClick);
+    }
+    function onMapClick(e) {
+      map.removeLayer(map_old);
+      //click -> Marker plot
+      var mk = L.marker(e.latlng).on('click', onMarkerClick).addTo(map);
+      console.log(e.latlng.lat, e.latlng.lng);
+      geoLat = e.latlng.lat;
+      geoLng = e.latlng.lng;
+      map_old = mk;
+    }
+    function onMarkerClick(e) {
+      //Erase clicked marker.
+      map.removeLayer(e.target);
+    }
+
+    // geoLocation API
+    function onLocationFound(e) {
+        L.marker(e.latlng).addTo(map).bindPopup("Position now!").openPopup();
+        geoLat = e.latlng.lat;
+        geoLng = e.latlng.lng;
+        console.log('geoLocation API',geoLat, geoLng);
+        map_old = map;
+    }
+    function onLocationError(e) {
+        alert("Fail! Can't get the geoposition." + e.message);
+    }
+
+    function autoGeoMap(){
+    	L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+        }).addTo(map);
+ 
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+        map.locate({setView: true, maxZoom: 8, timeout: 20000});
+    }
+
+    function Submit(){
+        console.log('Get Submit!');
+        var Manual = document.getElementById("ManualLocationCheck");
+        var AutoGeo  = document.getElementById("AutoGeolocationCheck");
+        var MapSearch = document.getElementById("MapSearchCheck");
+
+        if (Manual.checked || AutoGeo.checked || MapSearch.checked){
+            if (Manual.checked){
+                console.log('Manual location checked!');
+            } else if (AutoGeo.checked) {
+                console.log('AutoGeo checked!');
+                autoGeoMap();
+            } else if (MapSearch.checked) {
+                console.log('Map search checked!');
+                pointGeoMap();
+            } else {
+                console.log('Default Manual 1');
+            }
+        } else {
+            console.log('Force Manual!');
+        }
+    }
+    </script>
+</html>
