@@ -23,16 +23,10 @@
             </tr>
             <tr>
                 <td>Latitude:</td>
-                <!--
-                <td><input type="text" id="EditLatitude" pattern="[\-\+]?\d+(\.\d*)?" size="10"></td>
-                -->
                 <td id = "geoLat">-----</td>
             </tr>
             <tr>
                 <td>Longitude:</td>
-                <!--
-                <td><input type="text" id="EditLongitude" pattern="[\-\+]?\d+(\.\d*)?" size="10"></td>
-                -->
                 <td id = "geoLng">-----</td>
             </tr>
             <tr>
@@ -106,10 +100,10 @@ let geoLng = document.getElementById('geoLng');
 
 navigator.geolocation.getCurrentPosition((position)=>{
             let coords = position.coords;
-            geoLat.textContent = coords.latitude.toFixed(2);
-            geoLng.textContent = coords.longitude.toFixed(2);
-            GeoLat = coords.latitude.toFixed(2);
-            GeoLng = coords.longitude.toFixed(2);
+            geoLat.textContent = coords.latitude.toFixed(4);
+            geoLng.textContent = coords.longitude.toFixed(4);
+            GeoLat = coords.latitude.toFixed(4);
+            GeoLng = coords.longitude.toFixed(4);
 },error,options);
 
     function drawPolar(az, alt){
@@ -208,8 +202,6 @@ navigator.geolocation.getCurrentPosition((position)=>{
             let text_longitude; 
             let date;
             if (GeoLat && GeoLng) {
-                //let text_latitude = document.getElementById('geoLat').value;
-                //let text_longitude = document.getElementById('geoLng').value;
                 text_latitude = GeoLat;
                 text_longitude = GeoLng;
             }
